@@ -1,0 +1,16 @@
+
+@font-face {
+  font-family: "Inter";
+  src: url("/src/assets/fonts/Inter_28pt-Regular.ttf");
+}
+
+.mainContainer{
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+.navigationBar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

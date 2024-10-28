@@ -1,0 +1,11 @@
+
+.mainContainer{
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+.navigationBar{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
