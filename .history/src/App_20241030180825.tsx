@@ -29,9 +29,8 @@ function App() {
         <div className = "navigationBar">
           <p className = "headerTextBold">Pokemon Test Hand Generator</p>
           <p className = "headerText">Github</p>
+          <div className = "divider"/>
         </div>
-        <div className = "divider"/>
-        <p className = "mainText">Deck</p>
         <div className = "mainBody">
           <div className = "inputDeck">
             <form onSubmit = {handleSubmit}>
@@ -41,8 +40,7 @@ function App() {
               </div>
             </form>
           </div>
-          <div className = "testHands">
-          </div>
+          <div className = "testHands"></div>
         </div>
       </div>
     </div>

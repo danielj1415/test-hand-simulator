@@ -42,6 +42,7 @@ function App() {
             </form>
           </div>
           <div className = "testHands">
+            <p className = "mainText">Test Hands</p>
           </div>
         </div>
       </div>

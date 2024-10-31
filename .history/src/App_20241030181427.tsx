@@ -31,6 +31,7 @@ function App() {
           <p className = "headerText">Github</p>
         </div>
         <div className = "divider"/>
+        <p className = "mainText">Test Hands</p>
         <p className = "mainText">Deck</p>
         <div className = "mainBody">
           <div className = "inputDeck">

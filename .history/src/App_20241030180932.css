@@ -8,16 +8,12 @@
 
 .navigationBar{
   display: flex;
-  align-items:center;
+  align-items:flex-end;
   justify-content: space-between;
+  margin-top: 8px;
 }
 
 .headerText{
-  font-size: 16px;
-  font-family: "Inter";
-}
-
-.mainText{
   font-size: 16px;
   font-family: "Inter";
 }
@@ -36,6 +32,7 @@
 .mainBody{
   display: flex;
   justify-content: space-between;
+  margin-top: 8px;
 }
 
 .inputDeck{
@@ -49,9 +46,10 @@
   border-radius: 8px;
 }
 
+
 .deckInputDiv{
   width: 98%;
-  height: 560px;
+  height: 600px;
   resize: none;
   border-radius: 8px;
   font-family: "Inter";

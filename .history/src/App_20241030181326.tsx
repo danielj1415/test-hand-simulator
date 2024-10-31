@@ -31,9 +31,9 @@ function App() {
           <p className = "headerText">Github</p>
         </div>
         <div className = "divider"/>
-        <p className = "mainText">Deck</p>
         <div className = "mainBody">
           <div className = "inputDeck">
+            <p className = "mainText">Deck</p>
             <form onSubmit = {handleSubmit}>
               <div>
                 <label htmlFor="deck"></label>
@@ -42,6 +42,7 @@ function App() {
             </form>
           </div>
           <div className = "testHands">
+            <p className = "mainText">Test Hands</p>
           </div>
         </div>
       </div>
