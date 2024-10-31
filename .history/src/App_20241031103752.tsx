@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import './App.css'
+import { Outlet, Link } from "react-router-dom"; 
 
 function App() {
 
   const [deckList, setDeckList] = useState({
     deck: ''
   })
-  const [selectedFile, setSelectedFile] = useState<File | null>(null); // Specify the file type
+  const [selectedFile, setSelectedFile] = useState(null);
 
   // Handle input changes
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setDeckList((prevData) => ({
       ...prevData,
@@ -18,28 +19,16 @@ function App() {
   };
 
   // Handle file selection
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
     setSelectedFile(file);
     console.log("Selected file:", file); // Optional: log the file
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const fileContent = event.target?.result as string;
-        setDeckList((prevData) => ({
-          ...prevData,
-          deck: fileContent
-        }));
-      };
-      reader.readAsText(file); // Reads the file as text
-    }
   };
 
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault(); // Prevents the default form submission behavior
-    console.log('Form submitted:', deckList, selectedFile); // Check form data and selected file
+    // Process the form data here (e.g., send to an API)
   };
 
   return (

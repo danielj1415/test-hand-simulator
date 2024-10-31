@@ -57,10 +57,6 @@
   font-family: "Inter";
 }
 
-.generateButton{
-  
-}
-
 @media ((max-height: 920px) and (min-height: 800px)) {
   .deckInputDiv{
     width: 98%;

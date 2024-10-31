@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import { Outlet, Link } from "react-router-dom"; 
 
 function App() {
 
@@ -22,18 +23,6 @@ function App() {
     const file = e.target.files ? e.target.files[0] : null;
     setSelectedFile(file);
     console.log("Selected file:", file); // Optional: log the file
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const fileContent = event.target?.result as string;
-        setDeckList((prevData) => ({
-          ...prevData,
-          deck: fileContent
-        }));
-      };
-      reader.readAsText(file); // Reads the file as text
-    }
   };
 
   // Handle form submission
