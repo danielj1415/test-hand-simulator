@@ -27,15 +27,15 @@ function App() {
     <div>
       <div className = "mainContainer">
         <div className = "navigationBar">
-          <p className = "headerTextBold">Pokemon Test Hand Generator</p>
-          <p className = "headerText">Github</p>
+          <p>Pokemon Test Hand Generator</p>
+          <p>Github</p>
         </div>
         <div className = "mainBody">
           <div className = "inputDeck">
             <form onSubmit = {handleSubmit}>
               <div>
                 <label htmlFor="deck"></label>
-                <textarea className = "deckInputDiv" id="deck" name="deck" value={deckList.deck} onChange={handleChange}/>
+                <input type="text" id="deck" name="deck" value={deckList.deck} onChange={handleChange}/>
               </div>
             </form>
           </div>

@@ -8,7 +8,7 @@
 
 .navigationBar{
   display: flex;
-  align-items:flex-end;
+  align-items: center;
   justify-content: space-between;
   margin-top: 8px;
 }
@@ -42,8 +42,7 @@
 
 .deckInputDiv{
   width: 98%;
-  height: 600px;
+  height: 700px;
   resize: none;
   border-radius: 8px;
-  font-family: "Inter";
 }

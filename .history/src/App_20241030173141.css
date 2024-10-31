@@ -8,42 +8,30 @@
 
 .navigationBar{
   display: flex;
-  align-items:flex-end;
+  align-items: center;
   justify-content: space-between;
   margin-top: 8px;
 }
 
-.headerText{
+p{
   font-size: 16px;
-  font-family: "Inter";
-}
-
-.headerTextBold{
-  font-size: 20px;
   font-family: "Inter";
 }
 
 .mainBody{
   display: flex;
+  align-items:flex-start;
   justify-content: space-between;
 }
 
 .inputDeck{
   width: 33%;
-  border-radius: 8px;
+  background-color: red;
+  height: 100px;
 }
 
 .testHands{
   width: 66%;
-  background-color: rgb(198, 198, 198);
-  border-radius: 8px;
-}
-
-
-.deckInputDiv{
-  width: 98%;
-  height: 600px;
-  resize: none;
-  border-radius: 8px;
-  font-family: "Inter";
+  background-color: blue;
+  height: 100px;
 }

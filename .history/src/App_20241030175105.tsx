@@ -27,8 +27,8 @@ function App() {
     <div>
       <div className = "mainContainer">
         <div className = "navigationBar">
-          <p className = "headerTextBold">Pokemon Test Hand Generator</p>
-          <p className = "headerText">Github</p>
+          <p>Pokemon Test Hand Generator</p>
+          <p>Github</p>
         </div>
         <div className = "mainBody">
           <div className = "inputDeck">

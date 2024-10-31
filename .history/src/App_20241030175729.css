@@ -8,7 +8,7 @@
 
 .navigationBar{
   display: flex;
-  align-items:flex-end;
+  align-items: center;
   justify-content: space-between;
   margin-top: 8px;
 }
@@ -19,8 +19,9 @@
 }
 
 .headerTextBold{
-  font-size: 20px;
+  font-size: 24px;
   font-family: "Inter";
+  font-weight: bold;
 }
 
 .mainBody{
@@ -42,8 +43,7 @@
 
 .deckInputDiv{
   width: 98%;
-  height: 600px;
+  height: 700px;
   resize: none;
   border-radius: 8px;
-  font-family: "Inter";
 }

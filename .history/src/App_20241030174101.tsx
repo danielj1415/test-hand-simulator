@@ -9,7 +9,7 @@ function App() {
   })
 
   // Handle input changes
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setDeckList((prevData) => ({
       ...prevData,
@@ -18,7 +18,7 @@ function App() {
   };
 
   // Handle form submission
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
     // Process the form data here (e.g., send to an API)
   };
@@ -27,15 +27,15 @@ function App() {
     <div>
       <div className = "mainContainer">
         <div className = "navigationBar">
-          <p className = "headerTextBold">Pokemon Test Hand Generator</p>
-          <p className = "headerText">Github</p>
+          <p>Pokemon Test Hand Generator</p>
+          <p>Github</p>
         </div>
         <div className = "mainBody">
           <div className = "inputDeck">
             <form onSubmit = {handleSubmit}>
               <div>
                 <label htmlFor="deck"></label>
-                <textarea className = "deckInputDiv" id="deck" name="deck" value={deckList.deck} onChange={handleChange}/>
+                <input type="text" id="deck" name="deck" value={deckList.deck} onChange={handleChange}/>
               </div>
             </form>
           </div>
