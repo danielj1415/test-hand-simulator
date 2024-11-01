@@ -41,14 +41,12 @@
 .inputDeck{
   width: 33%;
   border-radius: 8px;
-  background-color: blue;
 }
 
 .testHands{
-  width: 100%;
+  width: 66%;
+  background-color: rgb(198, 198, 198);
   border-radius: 8px;
-  background-color: red;
-  margin-left: 32px;
 }
 
 .deckInputDiv{
@@ -67,18 +65,17 @@
   display: flex;
   gap: 16px; /* Adds space between each card */
   flex-wrap: wrap; /* Allows cards to wrap to the next line if needed */
-  margin-bottom: 16px;
 }
 
 .card {
-  background-color: #a9a9a9;
+  background-color: #f5f5f5;
   border-radius: 8px;
   padding: 16px;
-  width: 108px;
-  text-align:start;
+  width: 96px;
+  text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 16px;
-  height: 184px;
+  height: 172px;
   font-family: "Inter";
 }
 

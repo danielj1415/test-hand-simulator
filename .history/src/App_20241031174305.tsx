@@ -6,7 +6,7 @@ function App() {
     deck: ''
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [sampleHands, setSampleHands] = useState<string[][]>([]); // Update to hold multiple hands
+  const [sampleHand, setSampleHand] = useState<string[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -36,7 +36,7 @@ function App() {
   const parseDeck = () => {
     return deckList.deck
       .split('\n')
-      .filter(line => line.trim() !== '' && !/^(Pokémon:|Trainer:|Energy:|Total Cards:)/.test(line))
+      .filter(line => line.trim() !== '' && !/^(Pokémon:|Trainer:|Energy:)/.test(line))
       .flatMap(line => {
         const match = line.match(/^(\d+)\s+(.+)$/);
         if (match) {
@@ -60,9 +60,7 @@ function App() {
 
     const shuffledDeck = cardArray.sort(() => 0.5 - Math.random());
     const hand = shuffledDeck.slice(0, 7);
-
-    // Append the new hand to the existing sampleHands array
-    setSampleHands((prevHands) => [...prevHands, hand]);
+    setSampleHand(hand);
   };
 
   return (
@@ -97,15 +95,13 @@ function App() {
             </form>
           </div>
           <div className="testHands">
-            {sampleHands.map((hand, handIndex) => (
-              <div key={handIndex} className="cardRow">
-                {hand.map((card, index) => (
-                  <div key={index} className="card">
-                    {card}
-                  </div>
-                ))}
-              </div>
-            ))}
+            <div className="cardRow">
+              {sampleHand.map((card, index) => (
+                <div key={index} className="card">
+                  {card}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
