@@ -83,11 +83,6 @@ function App() {
     });
   };
 
-  // Function to clear all generated test hands
-  const clearHands = () => {
-    setSampleHands([]); // Reset sampleHands to an empty array
-  };
-
   return (
     <div>
       <div className="mainContainer">
@@ -96,9 +91,9 @@ function App() {
           <p className="headerText">Github</p>
         </div>
         <div className="divider"/>
+        <p className="mainText">Deck</p>
         <div className="mainBody">
           <div className="inputDeck">
-            <p className="mainText">Deck</p>
             <form onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="deck"></label>
@@ -120,10 +115,6 @@ function App() {
             </form>
           </div>
           <div className="testHands">
-          <div className = "topRow">
-          <p className="mainText">Test Hands</p>
-          <button onClick={clearHands}>Clear</button> {/* Clear button with onClick */}
-          </div>
             {sampleHands.map((hand, handIndex) => (
               <div key={handIndex} className="cardRow">
                 {hand.map((card, index) => (

@@ -122,7 +122,7 @@ function App() {
           <div className="testHands">
           <div className = "topRow">
           <p className="mainText">Test Hands</p>
-          <button onClick={clearHands}>Clear</button> {/* Clear button with onClick */}
+          <button>Clear</button>
           </div>
             {sampleHands.map((hand, handIndex) => (
               <div key={handIndex} className="cardRow">
