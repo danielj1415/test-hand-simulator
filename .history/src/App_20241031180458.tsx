@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
@@ -6,8 +6,18 @@ function App() {
     deck: ''
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [sampleHands, setSampleHands] = useState<string[][]>([]); // Holds multiple test hands
-  const [showScrollTop, setShowScrollTop] = useState(false); // Controls the visibility of the scroll-to-top button
+  const [sampleHands, setSampleHands] = useState<string[][]>([]); // Update to hold multiple hands
+  const [showScrollButton, setShowScrollButton] = useState(false);
+
+  // Show scroll-to-top button when user scrolls down
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300); // Show button when scrolled 300px
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -62,25 +72,8 @@ function App() {
     const shuffledDeck = cardArray.sort(() => 0.5 - Math.random());
     const hand = shuffledDeck.slice(0, 7);
 
+    // Append the new hand to the existing sampleHands array
     setSampleHands((prevHands) => [...prevHands, hand]);
-  };
-
-  // Show scroll-to-top button when user scrolls down
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 300); // Show button when scrolled 300px
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Function to scroll to top smoothly
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
   };
 
   return (
@@ -127,13 +120,6 @@ function App() {
           </div>
         </div>
       </div>
-      
-      {/* Scroll-to-Top Button */}
-      {showScrollTop && (
-        <button className="scrollTopButton" onClick={scrollToTop}>
-          ⬆️ {/* You can replace this with an SVG icon or another arrow style */}
-        </button>
-      )}
     </div>
   );
 }

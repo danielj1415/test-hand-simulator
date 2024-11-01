@@ -80,28 +80,6 @@
   font-family: "Inter";
 }
 
-.scrollTopButton {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  padding: 12px;
-  padding-left: 16px;
-  padding-right: 16px;
-  font-size: 24px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.3s ease;
-}
-
-.scrollTopButton:hover {
-  background-color: #0056b3;
-}
-
-
 @media ((max-height: 920px) and (min-height: 800px)) {
   .deckInputDiv{
     width: 98%;
