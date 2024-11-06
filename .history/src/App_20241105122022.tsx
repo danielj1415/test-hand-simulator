@@ -10,7 +10,7 @@ function App() {
   const [sampleHands, setSampleHands] = useState<string[][]>([]); // Holds multiple test hands
   const [showScrollTop, setShowScrollTop] = useState(false); // Controls the visibility of the scroll-to-top button
   const [cardData, setCardData] = useState<any | null>(null); // State to hold cards
-  const [sets, setSets] = useState<any[]>([]); // State to hold the sets data
+  const [name, setName] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -96,8 +96,9 @@ function App() {
   useEffect(() => {
     (async () => {
       const fetchBound = fetch.bind(window);
+  
       try {
-        const response = await fetchBound('https://api.tcgdex.net/v2/en/cards/swshp-SWSH001'); // Directly fetch card data
+        const response = await fetchBound('https://api.tcgdex.net/v2/en/cards/swsh3-136'); // Directly fetch card data
         const card = await response.json();
         setCardData(card); // Set the fetched card data in the state
       } catch (error) {
@@ -106,10 +107,10 @@ function App() {
     })();
   }, []);
 
-  // Construct the image URL with quality and extension
-  const quality = "high"; // or "low"
-  const extension = "png"; // or "webp" or "jpg"
-  const imageUrl = cardData ? `${cardData.image}/${quality}.${extension}` : "";
+  const quality = "high";
+  const extension = "png";
+  // Assuming cardData contains `setId` and `localId` fields based on the documentation format
+  const imageUrl = `https://assets.tcgdex.net/en/${cardData.setId}/${cardData.localId}/${quality}.${extension}`;
 
   return (
     <div>
@@ -165,7 +166,7 @@ function App() {
               <div>
                 <h2>{cardData.name}</h2>
                 {cardData.image && (
-                  <img src={imageUrl} alt={cardData.name} className="cardImage" />
+                  <img src={cardData.image} alt={cardData.name} className="cardImage" />
                 )}
                 <pre>{JSON.stringify(cardData, null, 2)}</pre> {/* Display all card data */}
               </div>
@@ -175,6 +176,7 @@ function App() {
           </div>
         </div>
       </div>
+      
       {/* Scroll-to-Top Button */}
       {showScrollTop && (
         <button className="scrollTopButton" onClick={scrollToTop}>

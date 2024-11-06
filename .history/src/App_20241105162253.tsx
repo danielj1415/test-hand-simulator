@@ -96,8 +96,9 @@ function App() {
   useEffect(() => {
     (async () => {
       const fetchBound = fetch.bind(window);
+  
       try {
-        const response = await fetchBound('https://api.tcgdex.net/v2/en/cards/swshp-SWSH001'); // Directly fetch card data
+        const response = await fetchBound('https://api.tcgdex.net/v2/en/cards/sv01-001'); // Directly fetch card data
         const card = await response.json();
         setCardData(card); // Set the fetched card data in the state
       } catch (error) {
@@ -110,6 +111,21 @@ function App() {
   const quality = "high"; // or "low"
   const extension = "png"; // or "webp" or "jpg"
   const imageUrl = cardData ? `${cardData.image}/${quality}.${extension}` : "";
+
+  useEffect(() => {
+    const fetchSets = async () => {
+      const tcgdex = new TCGdex('en'); // Initialize the SDK
+
+      try {
+        const setsData = await tcgdex.fetch('sets'); // Fetch all sets
+        setSets(setsData); // Store sets data in state
+      } catch (error) {
+        console.error("Error fetching sets data:", error);
+      }
+    };
+
+    fetchSets();
+  }, []);
 
   return (
     <div>
@@ -175,6 +191,19 @@ function App() {
           </div>
         </div>
       </div>
+      <div>
+      <h1>Available Pokémon TCG Sets</h1>
+      <div className="setsList">
+        {sets.map((set) => (
+          <div key={set.id} className="setCard">
+            <h2>{set.name}</h2>
+            <img src={set.logo} alt={`${set.name} logo`} className="setLogo" />
+            <p>Total Cards: {set.cardCount.total}</p>
+            <p>Official Cards: {set.cardCount.official}</p>
+          </div>
+        ))}
+      </div>
+    </div>
       {/* Scroll-to-Top Button */}
       {showScrollTop && (
         <button className="scrollTopButton" onClick={scrollToTop}>

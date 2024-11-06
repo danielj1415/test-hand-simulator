@@ -10,7 +10,6 @@ function App() {
   const [sampleHands, setSampleHands] = useState<string[][]>([]); // Holds multiple test hands
   const [showScrollTop, setShowScrollTop] = useState(false); // Controls the visibility of the scroll-to-top button
   const [cardData, setCardData] = useState<any | null>(null); // State to hold cards
-  const [sets, setSets] = useState<any[]>([]); // State to hold the sets data
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -93,23 +92,13 @@ function App() {
 
   const tcgdex = new TCGdex('en');
 
-  useEffect(() => {
+  useEffect(()=> {
     (async () => {
       const fetchBound = fetch.bind(window);
-      try {
-        const response = await fetchBound('https://api.tcgdex.net/v2/en/cards/swshp-SWSH001'); // Directly fetch card data
-        const card = await response.json();
-        setCardData(card); // Set the fetched card data in the state
-      } catch (error) {
-        console.error("Error fetching card data:", error);
-      }
+      const card = await tcgdex.fetchBound('cards', 'swsh3-136'); // Fetch the card data
+      setCardData(card); // Set the fetched card data in the state
     })();
   }, []);
-
-  // Construct the image URL with quality and extension
-  const quality = "high"; // or "low"
-  const extension = "png"; // or "webp" or "jpg"
-  const imageUrl = cardData ? `${cardData.image}/${quality}.${extension}` : "";
 
   return (
     <div>
@@ -158,23 +147,15 @@ function App() {
             ))}
           </div>
         </div>
-        <div>
-          <h1>Pokemon Card Information</h1>
-          <div className="cards">
-            {cardData ? (
-              <div>
-                <h2>{cardData.name}</h2>
-                {cardData.image && (
-                  <img src={imageUrl} alt={cardData.name} className="cardImage" />
-                )}
-                <pre>{JSON.stringify(cardData, null, 2)}</pre> {/* Display all card data */}
-              </div>
-            ) : (
-              <p>Loading card data...</p>
-            )}
-          </div>
+        <div className="cards">
+          {cardData ? (
+            <pre>{JSON.stringify(cardData, null, 2)}</pre>
+          ) : (
+            <p>Loading card data...</p>
+          )}
         </div>
       </div>
+      
       {/* Scroll-to-Top Button */}
       {showScrollTop && (
         <button className="scrollTopButton" onClick={scrollToTop}>

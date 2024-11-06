@@ -10,7 +10,7 @@ function App() {
   const [sampleHands, setSampleHands] = useState<string[][]>([]); // Holds multiple test hands
   const [showScrollTop, setShowScrollTop] = useState(false); // Controls the visibility of the scroll-to-top button
   const [cardData, setCardData] = useState<any | null>(null); // State to hold cards
-  const [sets, setSets] = useState<any[]>([]); // State to hold the sets data
+
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -96,8 +96,9 @@ function App() {
   useEffect(() => {
     (async () => {
       const fetchBound = fetch.bind(window);
+  
       try {
-        const response = await fetchBound('https://api.tcgdex.net/v2/en/cards/swshp-SWSH001'); // Directly fetch card data
+        const response = await fetchBound('https://api.tcgdex.net/v2/en/cards/OBF-202'); // Directly fetch card data
         const card = await response.json();
         setCardData(card); // Set the fetched card data in the state
       } catch (error) {
@@ -175,6 +176,7 @@ function App() {
           </div>
         </div>
       </div>
+      
       {/* Scroll-to-Top Button */}
       {showScrollTop && (
         <button className="scrollTopButton" onClick={scrollToTop}>

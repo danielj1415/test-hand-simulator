@@ -96,8 +96,9 @@ function App() {
   useEffect(() => {
     (async () => {
       const fetchBound = fetch.bind(window);
+  
       try {
-        const response = await fetchBound('https://api.tcgdex.net/v2/en/cards/swshp-SWSH001'); // Directly fetch card data
+        const response = await fetchBound('https://api.tcgdex.net/v2/en/cards/sv07-001'); // Directly fetch card data
         const card = await response.json();
         setCardData(card); // Set the fetched card data in the state
       } catch (error) {
