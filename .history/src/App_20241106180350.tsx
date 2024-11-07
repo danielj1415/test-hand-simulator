@@ -10,18 +10,8 @@ function App() {
   const [sampleHands, setSampleHands] = useState<string[][]>([]); // Holds multiple test hands
   const [showScrollTop, setShowScrollTop] = useState(false); // Controls the visibility of the scroll-to-top button
   const [cardData, setCardData] = useState<any | null>(null); // State to hold cards
-  const [handImages, setHandImages] = useState<string[][]>([]); // State to hold the URLs of the card images 
+  const [sets, setSets] = useState<any[]>([]); // State to hold the sets data
 
-  // Show scroll-to-top button when user scrolls down
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 300); // Show button when scrolled 300px
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-  
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setDeckList((prevData) => ({
@@ -78,7 +68,15 @@ function App() {
     setSampleHands((prevHands) => [...prevHands, hand]);
   };
 
-  
+  // Show scroll-to-top button when user scrolls down
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300); // Show button when scrolled 300px
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Function to scroll to top smoothly
   const scrollToTop = () => {
@@ -174,6 +172,22 @@ function App() {
             )}
           </div>
         </div>
+          </div>
+        </div>
+        <div>
+          <h1>Pokemon Card Information</h1>
+          <div className="cards">
+            {cardData ? (
+              <div>
+                <h2>{cardData.name}</h2>
+                {cardData.image && (
+                  <img src={imageUrl} alt={cardData.name} className="cardImage" />
+                )}
+                <pre>{JSON.stringify(cardData, null, 2)}</pre> {/* Display all card data */}
+              </div>
+            ) : (
+              <p>Loading card data...</p>
+            )}
           </div>
         </div>
       </div>
