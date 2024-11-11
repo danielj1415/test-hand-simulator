@@ -91,59 +91,30 @@ const setCodeMapping: { [key: string]: string } = {
   SIT: "swsh12",
   CRZ: "swsh12.5",
   PR: "swshp",
-  CEL: "cel25",
-  CES: "sm7",
-  FFI: "xy3"
+  CEL: "cel25"
 };
 
-  // Extract set ID and card ID based on custom mapping
-const extractSetIdAndCardId = (cardName: string): [string, string] => {
-  const parts = cardName.split(" ");
-  const setCode = parts[parts.length - 2];
-  const cardId = parts[parts.length - 1];
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const mappedSetId = setCodeMapping[setCode];
-  if (!mappedSetId) {
-    throw new Error(`Set code "${setCode}" not found in mapping.`);
-  }
+    const cardArray = parseDeck();
 
-  return [mappedSetId, cardId];
-};
+    if (cardArray.length < 7) {
+      alert("Deck must contain at least 7 cards to generate a hand.");
+      return;
+    }
 
-// Revised handleSubmit function
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    const shuffledDeck = cardArray.sort(() => 0.5 - Math.random());
+    const hand = shuffledDeck.slice(0, 7);
 
-  const cardArray = parseDeck();
-  if (cardArray.length < 7) {
-    alert("Deck must contain at least 7 cards to generate a hand.");
-    return;
-  }
+    setSampleHands((prevHands) => [...prevHands, hand]);
 
-  const shuffledDeck = cardArray.sort(() => 0.5 - Math.random());
-  const hand = shuffledDeck.slice(0, 7);
-  setSampleHands((prevHands) => [...prevHands, hand]);
+    console.log(hand[0]);
+    
 
-  const fetchBound = fetch.bind(window);
-  const handImagesArray = await Promise.all(
-    hand.map(async (cardName) => {
-      const [setId, cardId] = extractSetIdAndCardId(cardName);
-      try {
-        const response = await fetchBound(`https://api.tcgdex.net/v2/en/cards/${setId}-${cardId}`);
-        const cardData = await response.json();
+  };
 
-        const quality = "high";
-        const extension = "png";
-        return cardData.image ? `${cardData.image}/${quality}.${extension}` : "";
-      } catch (error) {
-        console.error("Error fetching card data for:", cardName, error);
-        return "";
-      }
-    })
-  );
-
-  setHandImages((prevImages) => [...prevImages, handImagesArray]);
-};
+  
 
   // Function to scroll to top smoothly
   const scrollToTop = () => {
@@ -155,9 +126,28 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   // Function to clear all generated test hands
   const clearHands = () => {
-    setHandImages([]); // Reset sampleHands to an empty array
+    setSampleHands([]); // Reset sampleHands to an empty array
   };
 
+  const tcgdex = new TCGdex('en');
+
+  useEffect(() => {
+    (async () => {
+      const fetchBound = fetch.bind(window);
+      try {
+        const response = await fetchBound('https://api.tcgdex.net/v2/en/cards/sv05-126'); // Directly fetch card data
+        const card = await response.json();
+        setCardData(card); // Set the fetched card data in the state
+      } catch (error) {
+        console.error("Error fetching card data:", error);
+      }
+    })();
+  }, []);
+
+  // Construct the image URL with quality and extension
+  const quality = "high"; // or "low"
+  const extension = "png"; // or "webp" or "jpg"
+  const imageUrl = cardData ? `${cardData.image}/${quality}.${extension}` : "";
 
   return (
     <div>
@@ -195,16 +185,29 @@ const handleSubmit = async (e: React.FormEvent) => {
           <p className="mainText">Test Hands</p>
           <button onClick={clearHands}>Clear</button> {/* Clear button with onClick */}
           </div>
-          {handImages.map((images, handIndex) => (
+            {sampleHands.map((hand, handIndex) => (
               <div key={handIndex} className="cardRow">
-                {images.map((image, index) => (
-                  <img key={index} src={image} alt={`Card ${index + 1}`} className="cardImage" />
+                {hand.map((card, index) => (
+                  <div key={index} className="card">
+                    {card}
+                  </div>
                 ))}
               </div>
             ))}
             <div>
           <h1>Pokemon Card Information</h1>
           <div className="cards">
+            {cardData ? (
+              <div>
+                <h2>{cardData.name}</h2>
+                {cardData.image && (
+                  <img src={imageUrl} alt={cardData.name} className="cardImage" />
+                )}
+                <pre>{JSON.stringify(cardData, null, 2)}</pre> {/* Display all card data */}
+              </div>
+            ) : (
+              <p>Loading card data...</p>
+            )}
           </div>
         </div>
           </div>

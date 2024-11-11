@@ -91,9 +91,7 @@ const setCodeMapping: { [key: string]: string } = {
   SIT: "swsh12",
   CRZ: "swsh12.5",
   PR: "swshp",
-  CEL: "cel25",
-  CES: "sm7",
-  FFI: "xy3"
+  CEL: "cel25"
 };
 
   // Extract set ID and card ID based on custom mapping
@@ -155,7 +153,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   // Function to clear all generated test hands
   const clearHands = () => {
-    setHandImages([]); // Reset sampleHands to an empty array
+    setSampleHands([]); // Reset sampleHands to an empty array
   };
 
 

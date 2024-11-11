@@ -91,10 +91,28 @@ const setCodeMapping: { [key: string]: string } = {
   SIT: "swsh12",
   CRZ: "swsh12.5",
   PR: "swshp",
-  CEL: "cel25",
-  CES: "sm7",
-  FFI: "xy3"
+  CEL: "cel25"
 };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const cardArray = parseDeck();
+
+    if (cardArray.length < 7) {
+      alert("Deck must contain at least 7 cards to generate a hand.");
+      return;
+    }
+
+    const shuffledDeck = cardArray.sort(() => 0.5 - Math.random());
+    const hand = shuffledDeck.slice(0, 7);
+
+    setSampleHands((prevHands) => [...prevHands, hand]);
+
+    console.log(hand[0]);
+    
+
+  };
 
   // Extract set ID and card ID based on custom mapping
 const extractSetIdAndCardId = (cardName: string): [string, string] => {
@@ -155,7 +173,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   // Function to clear all generated test hands
   const clearHands = () => {
-    setHandImages([]); // Reset sampleHands to an empty array
+    setSampleHands([]); // Reset sampleHands to an empty array
   };
 
 
@@ -195,16 +213,29 @@ const handleSubmit = async (e: React.FormEvent) => {
           <p className="mainText">Test Hands</p>
           <button onClick={clearHands}>Clear</button> {/* Clear button with onClick */}
           </div>
-          {handImages.map((images, handIndex) => (
+            {sampleHands.map((hand, handIndex) => (
               <div key={handIndex} className="cardRow">
-                {images.map((image, index) => (
-                  <img key={index} src={image} alt={`Card ${index + 1}`} className="cardImage" />
+                {hand.map((card, index) => (
+                  <div key={index} className="card">
+                    {card}
+                  </div>
                 ))}
               </div>
             ))}
             <div>
           <h1>Pokemon Card Information</h1>
           <div className="cards">
+            {cardData ? (
+              <div>
+                <h2>{cardData.name}</h2>
+                {cardData.image && (
+                  <img src={imageUrl} alt={cardData.name} className="cardImage" />
+                )}
+                <pre>{JSON.stringify(cardData, null, 2)}</pre> {/* Display all card data */}
+              </div>
+            ) : (
+              <p>Loading card data...</p>
+            )}
           </div>
         </div>
           </div>
