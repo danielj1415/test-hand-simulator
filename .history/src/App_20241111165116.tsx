@@ -217,6 +217,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     setHandImages([]); // Reset sampleHands to an empty array
   };
 
+
   return (
     <div>
       <div className="mainContainer">
