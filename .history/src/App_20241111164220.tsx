@@ -138,72 +138,52 @@ const handleSubmit = async (e: React.FormEvent) => {
     return;
   }
 
-  const fetchBound = fetch.bind(window);
-  let hand: string[] = [];
-  let handImagesArray: string[] = [];
-  let containsBasicPokemon = false;
-
-  // Repeat the process until a hand with at least one Basic Pokémon is found
-  do {
-    // Shuffle and take the first 7 cards
-    hand = cardArray.sort(() => 0.5 - Math.random()).slice(0, 7);
-
-    // Reset handImagesArray and containsBasicPokemon for each iteration
-    handImagesArray = [];
-    containsBasicPokemon = false;
-
-    await Promise.all(
-      hand.map(async (cardName) => {
-        console.log(`Processing card: ${cardName}`);
-
-        // Check if card is an energy card by matching the energy type
-        const energyMatch = cardName.match(/Basic \{(\w)\} Energy/);
-        if (energyMatch) {
-          const energySymbol = `{${energyMatch[1]}}`; // Extract the energy symbol (e.g., "{W}")
-          console.log(`Energy card detected: ${energySymbol}`);
-          handImagesArray.push(energyImageMapping[energySymbol] || "/path/to/default-energy.jpg"); // Default image if type not found
-          return;
-        }
-
-        // Proceed with API request for non-energy cards
-        try {
-          let [setId, cardId] = extractSetIdAndCardId(cardName);
-
-          // List of sets that require three-digit formatting
-          const threeDigitSets = ["sv", "swsh9", "swsh10", "swsh10.5", "swsh11", "swsh12", "swsh12.5"];
-          
-          // Check if setId is in the list for three-digit formatting and pad accordingly
-          if (threeDigitSets.some(prefix => setId.startsWith(prefix))) {
-            cardId = cardId.padStart(3, '0'); // Pad with leading zeros to ensure it's three digits
-          }
-
-          const response = await fetchBound(`https://api.tcgdex.net/v2/en/cards/${setId}-${cardId}`);
-          const cardData = await response.json();
-
-          console.log(`Fetched card data for: ${cardData.name}`);
-
-          // Check if the card is a Basic Pokémon
-          if (cardData.category === "Pokemon" && cardData.stage === "Basic") {
-            containsBasicPokemon = true;
-          }
-
-          const quality = "high";
-          const extension = "png";
-          handImagesArray.push(cardData.image ? `${cardData.image}/${quality}.${extension}` : "/path/to/default-card.jpg");
-        } catch (error) {
-          console.error("Error fetching card data for:", cardName, error);
-          handImagesArray.push("/path/to/default-card.jpg"); // Path to a generic error image if API fetch fails
-        }
-      })
-    );
-
-  } while (!containsBasicPokemon); // Repeat if no Basic Pokémon is found
-
-  // Add the valid hand to sampleHands and handImages
+  const shuffledDeck = cardArray.sort(() => 0.5 - Math.random());
+  const hand = shuffledDeck.slice(0, 7);
   setSampleHands((prevHands) => [...prevHands, hand]);
+
+  const fetchBound = fetch.bind(window);
+  const handImagesArray = await Promise.all(
+    hand.map(async (cardName) => {
+      console.log(`Processing card: ${cardName}`);
+
+      // Check if card is an energy card by matching the energy type
+      const energyMatch = cardName.match(/Basic \{(\w)\} Energy/);
+      if (energyMatch) {
+        const energySymbol = `{${energyMatch[1]}}`; // Extract the energy symbol (e.g., "{W}")
+        console.log(`Energy card detected: ${energySymbol}`);
+        return energyImageMapping[energySymbol] || "/path/to/default-energy.jpg"; // Default image if type not found
+      }
+
+      // Proceed with API request for non-energy cards
+      try {
+        let [setId, cardId] = extractSetIdAndCardId(cardName);
+
+        // List of sets that require three-digit formatting
+        const threeDigitSets = ["sv", "swsh9", "swsh10", "swsh10.5", "swsh11", "swsh12", "swsh12.5"];
+        
+        // Check if setId is in the list for three-digit formatting and pad accordingly
+        if (threeDigitSets.some(prefix => setId.startsWith(prefix))) {
+          cardId = cardId.padStart(3, '0'); // Pad with leading zeros to ensure it's three digits
+        }
+
+        const response = await fetchBound(`https://api.tcgdex.net/v2/en/cards/${setId}-${cardId}`);
+        const cardData = await response.json();
+
+        console.log(`Fetched card data for: ${cardData.name}`); // Log the name of the fetched card
+
+        const quality = "high";
+        const extension = "png";
+        return cardData.image ? `${cardData.image}/${quality}.${extension}` : "";
+      } catch (error) {
+        console.error("Error fetching card data for:", cardName, error);
+        return "/path/to/default-card.jpg"; // Path to a generic error image if API fetch fails
+      }
+    })
+  );
+
   setHandImages((prevImages) => [...prevImages, handImagesArray]);
 };
-
 
 
   // Function to scroll to top smoothly
